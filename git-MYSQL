@@ -1,0 +1,53 @@
+1)
+SELECT count(*) from commande as c
+inner join product_commande as pc on pc.commande_id = c.id
+inner join product as p on p.id = pc.product_id
+where p.price > 50
+
+
+2)
+select avg(price) 
+from product as p 
+inner join product_commande as pc on pc.product_id = p.id
+inner join commande as c on pc.commande_id = c.id 
+
+3)
+SELECT count(*)
+FROM marque as m
+inner join product_marque as pm
+ON pm.marque_id = m.id
+WHERE pm.localisation = 'lyon'
+
+
+4)
+SELECT user.nom, carte_fidelite.card_number
+FROM user
+inner JOIN carte_fidelite 
+ON user.id = carte_fidelite.user_id
+inner JOIN commande
+ON user.id = commande.user_id
+WHERE commande.created >= (SELECT DATE_SUB(MAX(created), INTERVAL 2 DAY) FROM commande)
+ORDER BY commande.created DESC;
+
+
+5)
+SELECT f.nom, COUNT(pf.product_id) AS nombre_produits
+FROM fournisseurs  as f
+inner join product_fournisseur as pf 
+ON f.id = pf.fournisseur_id
+inner JOIN product as p
+ON pf.product_id = p.id
+WHERE p.createdAt <= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
+GROUP BY f.id
+ORDER BY COUNT(pf.product_id) DESC;
+
+
+
+6)
+SELECT *
+FROM administrateurs
+ORDER BY date_creation DESC
+LIMIT 2;
+
+
+
